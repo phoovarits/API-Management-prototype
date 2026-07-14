@@ -2,9 +2,9 @@ import { API_CATALOG } from '../data/apiCatalog.js'
 
 // ตัวเลือก permission แบบ field-level — ใช้ทั้งหน้า Create และ Edit
 // value = object permissions ตาม schema ข้อ 1, onChange(newPermissions, newMaxYears)
-export default function PermissionPicker({ permissions, maxYears, onChange }) {
-  const update = (patch, yearsPatch) => {
-    onChange({ ...permissions, ...patch }, yearsPatch !== undefined ? yearsPatch : maxYears)
+export default function PermissionPicker({ permissions, onChange }) {
+  const update = (patch) => {
+    onChange({ ...permissions, ...patch })
   }
 
   const isEnabled = (key) => {
@@ -20,9 +20,6 @@ export default function PermissionPicker({ permissions, maxYears, onChange }) {
     } else if (api.fields) {
       // เปิด = เลือกทุกฟิลด์ก่อน (ลูกค้าค่อยตัดออก), ปิด = array ว่าง
       update({ [api.key]: on ? [] : [...api.fields] })
-    } else if (api.yearOptions) {
-      // financial: boolean + maxYears
-      update({ [api.key]: !on }, on ? 0 : (maxYears || 1))
     } else {
       update({ [api.key]: !on })
     }
@@ -89,24 +86,6 @@ export default function PermissionPicker({ permissions, maxYears, onChange }) {
               </div>
             )}
 
-            {on && api.yearOptions && (
-              <div className="perm-subs">
-                <div className="perm-subs-label">ช่วงปีสูงสุดที่ซื้อ (maxYears — เป็น permission cap):</div>
-                <div className="perm-fields">
-                  {api.yearOptions.map((y) => (
-                    <label key={y.value} className="perm-chip">
-                      <input
-                        type="radio"
-                        name="financialYears"
-                        checked={maxYears === y.value}
-                        onChange={() => update({ financial: true }, y.value)}
-                      />
-                      {y.label}
-                    </label>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         )
       })}

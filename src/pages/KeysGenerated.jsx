@@ -9,13 +9,14 @@ export default function KeysGenerated({ customer, keys, onDone }) {
   const prod = keys.find((k) => k.environment === 'production')
   const sampleKey = prod || keys[0]
 
-  // หา endpoint ตัวอย่างจากสิทธิ์ที่ซื้อ
-  const boughtFinancial = customer.permissions.financial
-  const exampleReqBody = boughtFinancial
-    ? { juristic_id: '0105556000001', years: customer.financialMaxYears || 1 }
-    : { juristic_id: '0105556000001' }
-
-  const exampleEndpoint = boughtFinancial ? '/financial' : '/general'
+  // หา endpoint ตัวอย่างจากสิทธิ์ที่ซื้อ (กลุ่มแรกที่เปิด)
+  const isOn = (v) => (Array.isArray(v) ? v.length > 0 : !!v)
+  const firstEnabled = API_CATALOG.find((api) => api.key !== 'searching' && isOn(customer.permissions[api.key]))
+  const exampleEndpoint = '/' + (firstEnabled ? firstEnabled.key : 'general')
+  const exampleReqBody =
+    exampleEndpoint === '/searching'
+      ? { query: 'บริษัท ตัวอย่าง', type: 'company' }
+      : { juristic_id: '0105556000001' }
 
   return (
     <div className="keys-page">
@@ -90,7 +91,7 @@ export default function KeysGenerated({ customer, keys, onDone }) {
               <li key={api.key}>
                 <code>POST /{api.key}</code>
                 <span className="muted">— {api.desc}</span>
-                {api.key === 'financial' && <span className="tag">maxYears: {customer.financialMaxYears}</span>}
+                {Array.isArray(v) && v.length > 0 && <span className="tag">{v.length} field</span>}
               </li>
             )
           })}
@@ -114,27 +115,37 @@ function CodeBlock({ text, onCopy }) {
 }
 
 function sampleResponse(endpoint, customer) {
+  const meta = { quota_remaining: customer.rateLimit.dailyQuota - 1 }
+  if (endpoint === '/searching') {
+    return {
+      data: { results: [{ registration_no: '0105556000001', company_name: 'บริษัท ตัวอย่าง จำกัด' }] },
+      meta,
+      error: null,
+    }
+  }
   if (endpoint === '/financial') {
     return {
       data: {
-        juristic_id: '0105556000001',
-        financials: [
-          { year: 2025, total_assets: 125000000, total_revenue: 98000000, net_profit: 12400000 },
-          { year: 2024, total_assets: 110000000, total_revenue: 91000000, net_profit: 9800000 },
-        ],
+        registration_no: '0105556000001',
+        fiscal_year: 2568,
+        total_assets: 125000000,
+        total_revenue: 98000000,
+        net_profit: 12400000,
+        roa_pct: 9.9,
+        roe_pct: 14.2,
       },
-      meta: { years_returned: 2, max_years: customer.financialMaxYears, quota_remaining: customer.rateLimit.dailyQuota - 1 },
+      meta,
       error: null,
     }
   }
   return {
     data: {
-      juristic_id: '0105556000001',
-      name_th: 'บริษัท ตัวอย่าง จำกัด',
-      status: 'ดำเนินกิจการ',
+      registration_no: '0105556000001',
+      company_name: 'บริษัท ตัวอย่าง จำกัด',
+      business_status: 'ยังดำเนินกิจการอยู่',
       registered_capital: 5000000,
     },
-    meta: { quota_remaining: customer.rateLimit.dailyQuota - 1 },
+    meta,
     error: null,
   }
 }

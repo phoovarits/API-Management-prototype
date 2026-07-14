@@ -6,11 +6,13 @@ import { uid, generateApiKey } from '../utils.js'
 const emptyPermissions = {
   searching: [],
   general: [],
-  shareholder: [],
-  director: false,
-  financial: false,
-  procurement: false,
-  vat: false,
+  business: [],
+  trade_credit: [],
+  ranking: [],
+  cash_cycle: [],
+  directors: [],
+  history: [],
+  financial: [],
 }
 
 export default function CreateCustomer({ existingNames, onCreate, onShowKeys }) {
@@ -26,7 +28,6 @@ export default function CreateCustomer({ existingNames, onCreate, onShowKeys }) 
     dailyQuota: 10000,
   })
   const [permissions, setPermissions] = useState(emptyPermissions)
-  const [maxYears, setMaxYears] = useState(0)
   const [errors, setErrors] = useState({})
 
   const set = (k, v) => setForm({ ...form, [k]: v })
@@ -65,7 +66,6 @@ export default function CreateCustomer({ existingNames, onCreate, onShowKeys }) 
         stripFull(uatKey),
       ],
       permissions,
-      financialMaxYears: maxYears,
       rateLimit: { rpm: Number(form.rpm), dailyQuota: Number(form.dailyQuota) },
       usage: { calledToday: 0, calledTotal: 0, lastCalledDtm: null },
       active_date: new Date(form.active_date).toISOString(),
@@ -116,12 +116,11 @@ export default function CreateCustomer({ existingNames, onCreate, onShowKeys }) 
 
       {step === 2 && (
         <div className="card">
-          <h2>2. เลือก API & สิทธิ์ (ทีละเส้น)</h2>
+          <h2>2. เลือก API & สิทธิ์ (เลือกได้หลายรายการ)</h2>
           <p className="muted">เลือกเฉพาะ endpoint/field ที่ลูกค้าซื้อ — จะถูกบังคับที่ gateway จริงตอนยิง API</p>
           <PermissionPicker
             permissions={permissions}
-            maxYears={maxYears}
-            onChange={(p, y) => { setPermissions(p); setMaxYears(y) }}
+            onChange={(p) => setPermissions(p)}
           />
           <h3 className="mt">Rate limit / Quota</h3>
           <div className="form-grid">
@@ -158,10 +157,7 @@ export default function CreateCustomer({ existingNames, onCreate, onShowKeys }) 
                   if (!on) return null
                   return (
                     <div key={api.key} className="perm-summary-row">
-                      <span className="perm-summary-name">
-                        ✓ {api.label}
-                        {api.key === 'financial' && maxYears ? ` · สูงสุด ${maxYears} ปี` : ''}
-                      </span>
+                      <span className="perm-summary-name">✓ {api.label}</span>
                       {Array.isArray(v) && v.length > 0 && (
                         <span className="perm-summary-fields">
                           {v.map((f) => <span key={f} className="tag">{f}</span>)}

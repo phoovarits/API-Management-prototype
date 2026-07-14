@@ -41,7 +41,6 @@ export default function CustomerList({ customers, onUpdate, onDelete, onShowKeys
   const startEdit = () => {
     setDraft({
       permissions: JSON.parse(JSON.stringify(selected.permissions)),
-      financialMaxYears: selected.financialMaxYears || 0,
       rateLimit: { ...selected.rateLimit },
       expire_date: selected.expire_date?.slice(0, 10),
       active_date: selected.active_date?.slice(0, 10),
@@ -53,7 +52,6 @@ export default function CustomerList({ customers, onUpdate, onDelete, onShowKeys
   const saveEdit = () => {
     onUpdate(selected._id, {
       permissions: draft.permissions,
-      financialMaxYears: draft.financialMaxYears,
       rateLimit: { rpm: Number(draft.rateLimit.rpm), dailyQuota: Number(draft.rateLimit.dailyQuota) },
       expire_date: new Date(draft.expire_date).toISOString(),
       active_date: new Date(draft.active_date).toISOString(),
@@ -281,7 +279,7 @@ export default function CustomerList({ customers, onUpdate, onDelete, onShowKeys
             {/* Permissions */}
             <div className="block">
               <div className="block-head"><h3>สิทธิ์การใช้งาน (field-level)</h3></div>
-              <PermissionSummary permissions={selected.permissions} maxYears={selected.financialMaxYears} />
+              <PermissionSummary permissions={selected.permissions} />
             </div>
           </>
         )}
@@ -322,8 +320,7 @@ export default function CustomerList({ customers, onUpdate, onDelete, onShowKeys
             <h3 className="mt">แก้ไขสิทธิ์</h3>
             <PermissionPicker
               permissions={draft.permissions}
-              maxYears={draft.financialMaxYears}
-              onChange={(permissions, financialMaxYears) => setDraft({ ...draft, permissions, financialMaxYears })}
+              onChange={(permissions) => setDraft({ ...draft, permissions })}
             />
           </div>
         )}
@@ -360,7 +357,7 @@ function Field({ label, children }) {
   )
 }
 
-function PermissionSummary({ permissions, maxYears }) {
+function PermissionSummary({ permissions }) {
   return (
     <div className="perm-summary">
       {API_CATALOG.map((api) => {
@@ -368,10 +365,7 @@ function PermissionSummary({ permissions, maxYears }) {
         const on = Array.isArray(v) ? v.length > 0 : !!v
         return (
           <div key={api.key} className={'perm-summary-row' + (on ? '' : ' off')}>
-            <span className="perm-summary-name">
-              {on ? '✓' : '✗'} {api.label}
-              {api.key === 'financial' && on && maxYears ? ` · สูงสุด ${maxYears} ปี` : ''}
-            </span>
+            <span className="perm-summary-name">{on ? '✓' : '✗'} {api.label}</span>
             {Array.isArray(v) && v.length > 0 && (
               <span className="perm-summary-fields">
                 {v.map((f) => <span key={f} className="tag">{f}</span>)}

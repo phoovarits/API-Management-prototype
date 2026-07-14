@@ -1,0 +1,81 @@
+<mxGraphModel dx="1400" dy="900" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1500" pageHeight="900" math="0" shadow="0" adaptiveColors="auto">
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+    <mxCell id="title" value="CREDEN API Management — Customer Journey (0 → 5)" style="text;html=1;fontSize=20;fontStyle=1;align=center;verticalAlign=middle;" vertex="1" parent="1">
+      <mxGeometry x="40" y="20" width="1420" height="40" as="geometry"/>
+    </mxCell>
+    <mxCell id="sub" value="API = สัญญา (contract) · 1 contract = 1 ชุดสิทธิ์ + key UAT/Prod · ตลอดสัญญา edit/revoke/add transaction ได้ และเก็บ history" style="text;html=1;fontSize=12;align=center;verticalAlign=middle;fontColor=#666666;" vertex="1" parent="1">
+      <mxGeometry x="40" y="58" width="1420" height="24" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="s0" value="0 · Create Account&#10;&amp; Contract" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="40" y="120" width="180" height="64" as="geometry"/>
+    </mxCell>
+    <mxCell id="s1" value="1 · API เป็นสัญญา&#10;(contract)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="270" y="120" width="180" height="64" as="geometry"/>
+    </mxCell>
+    <mxCell id="s2" value="2 · เลือกข้อมูล&#10;ที่ลูกค้าต้องการ" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="500" y="120" width="180" height="64" as="geometry"/>
+    </mxCell>
+    <mxCell id="s3" value="3 · Business Logic&#10;ของการเลือกข้อมูล&#10;(Product Owner)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="730" y="120" width="180" height="64" as="geometry"/>
+    </mxCell>
+    <mxCell id="s4" value="4 · Generate API&#10;(UAT + Prod keys)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="960" y="120" width="180" height="64" as="geometry"/>
+    </mxCell>
+    <mxCell id="s5" value="5 · Edit / Delete / Revoke&#10;+ Add transaction&#10;ระหว่างสัญญา (เก็บ history)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="1190" y="120" width="200" height="64" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="e0" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="s0" target="s1"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="s1" target="s2"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="s2" target="s3"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="s3" target="s4"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="s4" target="s5"><mxGeometry relative="1" as="geometry"/></mxCell>
+    <mxCell id="e5" value="ต่อสัญญา / ขอเพิ่ม endpoint" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;dashed=1;strokeColor=#999999;fontSize=10;fontColor=#999999;" edge="1" parent="1" source="s5" target="s2"><mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1290" y="500"/><mxPoint x="590" y="500"/></Array></mxGeometry></mxCell>
+
+    <mxCell id="d0" value="• กรอกชื่อ/อีเมล/วันเปิด-หมดอายุ&#10;• username/password dashboard&#10;• ออก contract ผูกกับลูกค้า" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=11;spacingLeft=6;spacingTop=4;" vertex="1" parent="1">
+      <mxGeometry x="40" y="210" width="180" height="100" as="geometry"/>
+    </mxCell>
+    <mxCell id="d1" value="• 1 สัญญา = สิทธิ์ field-level&#10;&#160;&#160;ที่ลูกค้าซื้อ + เงื่อนไข&#10;• ผูก rate limit / quota /&#10;&#160;&#160;วันหมดอายุ เข้ากับ contract" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=11;spacingLeft=6;spacingTop=4;" vertex="1" parent="1">
+      <mxGeometry x="270" y="210" width="180" height="100" as="geometry"/>
+    </mxCell>
+    <mxCell id="d2" value="• Searching (company/person)&#10;• General / Shareholder /&#10;&#160;&#160;Director / Financial /&#10;&#160;&#160;procurement / vat&#10;• เลือก field ย่อย + ช่วงปี" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=11;spacingLeft=6;spacingTop=4;" vertex="1" parent="1">
+      <mxGeometry x="500" y="210" width="180" height="100" as="geometry"/>
+    </mxCell>
+    <mxCell id="d3" value="กติกาที่ PO ต้องเคาะ:&#10;• General (snapshot) vs&#10;&#160;&#160;Director/Shareholder/Fin&#10;&#160;&#160;(full) → กันบิลซ้ำ&#10;• Financial: maxYears = cap&#10;• person คืน data อะไร" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fillColor=#fff7ee;strokeColor=#d79b00;fontSize=11;spacingLeft=6;spacingTop=4;" vertex="1" parent="1">
+      <mxGeometry x="730" y="210" width="180" height="120" as="geometry"/>
+    </mxCell>
+    <mxCell id="d4" value="• ออก key เป็นชุด:&#10;&#160;&#160;UAT (mock) + Prod (จริง)&#10;• โชว์ key เต็มครั้งเดียว&#10;• แนบ X-API-Key ใน header&#10;• Swagger auto (FastAPI)&#10;• ตัวอย่าง payload/response" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fillColor=#f5f5f5;strokeColor=#cccccc;fontSize=11;spacingLeft=6;spacingTop=4;" vertex="1" parent="1">
+      <mxGeometry x="960" y="210" width="180" height="120" as="geometry"/>
+    </mxCell>
+    <mxCell id="d5" value="• แก้ permission / ต่ออายุ&#10;• regenerate / revoke key&#10;• add transaction (เพิ่ม API&#10;&#160;&#160;กลางสัญญา)&#10;• ทุก action ลง usage_log&#10;&#160;&#160;+ audit log" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=top;fillColor=#fffbf0;strokeColor=#d6b656;fontSize=11;spacingLeft=6;spacingTop=4;" vertex="1" parent="1">
+      <mxGeometry x="1190" y="210" width="200" height="120" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="gw" value="API Gateway (runtime) — ทุก request ของลูกค้าวิ่งผ่าน: auth key → เช็ค status/expiry → เช็ค permission (endpoint+field) → rate limit/quota → log usage → forward" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=2;align=center;" vertex="1" parent="1">
+      <mxGeometry x="500" y="370" width="890" height="56" as="geometry"/>
+    </mxCell>
+    <mxCell id="egw" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;dashed=1;strokeColor=#b85450;" edge="1" parent="1" source="s4" target="gw"><mxGeometry relative="1" as="geometry"/></mxCell>
+
+    <mxCell id="lg" value="ผู้รับผิดชอบ" style="text;html=1;fontStyle=1;fontSize=12;align=left;" vertex="1" parent="1">
+      <mxGeometry x="40" y="620" width="120" height="20" as="geometry"/>
+    </mxCell>
+    <mxCell id="lg1" value="Admin / Customer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="40" y="645" width="140" height="30" as="geometry"/>
+    </mxCell>
+    <mxCell id="lg2" value="เลือก / Generate (UI)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="190" y="645" width="140" height="30" as="geometry"/>
+    </mxCell>
+    <mxCell id="lg3" value="Product Owner (กติกา)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="340" y="645" width="160" height="30" as="geometry"/>
+    </mxCell>
+    <mxCell id="lg4" value="จัดการตลอดสัญญา" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="510" y="645" width="140" height="30" as="geometry"/>
+    </mxCell>
+    <mxCell id="lg5" value="ระบบ runtime (Gateway)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="660" y="645" width="160" height="30" as="geometry"/>
+    </mxCell>
+  </root>
+</mxGraphModel>

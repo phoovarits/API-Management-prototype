@@ -5,11 +5,13 @@
 const ENDPOINTS = [
   '/searching',
   '/general',
-  '/shareholder',
-  '/director',
+  '/business',
+  '/trade_credit',
+  '/ranking',
+  '/cash_cycle',
+  '/directors',
+  '/history',
   '/financial',
-  '/procurement',
-  '/vat',
 ]
 
 const DAYS = 14

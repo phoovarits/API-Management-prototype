@@ -72,15 +72,6 @@ function ApiDocCard({ api, onCopy }) {
         </div>
       )}
 
-      {api.yearOptions && (
-        <div className="doc-fields">
-          <div className="muted small">ช่วงปีที่เลือกซื้อได้ (maxYears cap)</div>
-          <div className="perm-fields">
-            {api.yearOptions.map((y) => <span key={y.value} className="tag">{y.label}</span>)}
-          </div>
-        </div>
-      )}
-
       <div className="two-col">
         <div>
           <div className="block-head"><h4>Request</h4><span className="muted small">POST /{api.key}</span></div>
@@ -110,50 +101,78 @@ function CodeBlock({ text, onCopy }) {
 }
 
 function sampleRequest(api) {
-  if (api.key === 'searching') return { query: 'บริษัท ตัวอย่าง', type: 'company' }
-  if (api.key === 'financial') return { juristic_id: '0105556000001', years: 3 }
-  return { juristic_id: '0105556000001' }
+  if (api.key === 'searching') return { query: 'ปตท', type: 'company' }
+  return { juristic_id: '0107544000108' }
 }
 
 function sampleResponse(api) {
   const meta = { quota_remaining: 9999, request_id: 'req_8f3a2c10' }
+  const jid = '0107544000108'
   switch (api.key) {
     case 'searching':
       return {
-        data: { results: [{ juristic_id: '0105556000001', name_th: 'บริษัท ตัวอย่าง จำกัด' }] },
+        data: {
+          results: [
+            { registration_no: jid, company_name: 'บริษัท ปตท. จำกัด (มหาชน)', business_status: 'ยังดำเนินกิจการอยู่' },
+          ],
+        },
         meta,
         error: null,
       }
     case 'general':
       return {
         data: {
-          juristic_id: '0105556000001',
-          name_th: 'บริษัท ตัวอย่าง จำกัด',
-          name_en: 'Example Co., Ltd.',
-          status: 'ดำเนินกิจการ',
-          registered_capital: 5000000,
-          financial_latest: { year: 2025, total_revenue: 98000000 },
+          registration_no: jid,
+          company_name: 'บริษัท ปตท. จำกัด (มหาชน)',
+          business_status: 'ยังดำเนินกิจการอยู่',
+          business_type: 'บริษัทมหาชนจำกัด',
+          registration_date: '1 ต.ค. 2544',
+          address: '555 ถนนวิภาวดีรังสิต จตุจักร กรุงเทพมหานคร',
         },
         meta,
         error: null,
       }
-    case 'shareholder':
+    case 'business':
       return {
         data: {
-          juristic_id: '0105556000001',
-          shareholders: [
-            { name: 'นาย ก. ตัวอย่าง', percentage: 51, shares: 51000 },
-            { name: 'นาง ข. ตัวอย่าง', percentage: 49, shares: 49000 },
-          ],
+          registration_no: jid,
+          registered_capital: 28562996250,
+          company_value: 677784392923,
+          business_size: 'Large',
+          tsic_code: '19201 : การผลิตผลิตภัณฑ์ที่ได้จากโรงกลั่นปิโตรเลียม',
         },
         meta,
         error: null,
       }
-    case 'director':
+    case 'trade_credit':
+      return {
+        data: { registration_no: jid, year: 2568, credit_term_days: 15, credit_limit_thb: 9593700000, financial_score: 2 },
+        meta,
+        error: null,
+      }
+    case 'ranking':
+      return {
+        data: { registration_no: jid, rank_thailand: 3, rank_bkk_metro: 3, rank_bangkok: 3 },
+        meta,
+        error: null,
+      }
+    case 'cash_cycle':
+      return { data: { registration_no: jid, cash_cycle_days: 6 }, meta, error: null }
+    case 'directors':
       return {
         data: {
-          juristic_id: '0105556000001',
-          directors: [{ name_th: 'นาย ก. ตัวอย่าง', position: 'กรรมการผู้มีอำนาจ' }],
+          registration_no: jid,
+          directors: [{ index: 1, partner: 'นายคงกระพัน อินทรแจ้ง' }],
+          shareholders: [{ Firstname: 'กระทรวงการคลัง', pct_share: 51.38, Count_share: 14675631250 }],
+        },
+        meta,
+        error: null,
+      }
+    case 'history':
+      return {
+        data: {
+          registration_no: jid,
+          capital_change_history: [{ index: 1, value: 20000000000, date_th: '1 ต.ค. 2544' }],
         },
         meta,
         error: null,
@@ -161,28 +180,15 @@ function sampleResponse(api) {
     case 'financial':
       return {
         data: {
-          juristic_id: '0105556000001',
-          financials: [
-            { year: 2025, total_assets: 125000000, total_revenue: 98000000, net_profit: 12400000 },
-            { year: 2024, total_assets: 110000000, total_revenue: 91000000, net_profit: 9800000 },
-            { year: 2023, total_assets: 98000000, total_revenue: 84000000, net_profit: 7600000 },
-          ],
+          registration_no: jid,
+          fiscal_year: 2568,
+          total_assets: 125000000,
+          total_liabilities: 60000000,
+          total_revenue: 98000000,
+          net_profit: 12400000,
+          roa_pct: 9.9,
+          roe_pct: 14.2,
         },
-        meta: { ...meta, years_returned: 3, max_years: 3 },
-        error: null,
-      }
-    case 'procurement':
-      return {
-        data: {
-          juristic_id: '0105556000001',
-          procurement: { count: 24, total_value: 58200000, latest_year: 2025 },
-        },
-        meta,
-        error: null,
-      }
-    case 'vat':
-      return {
-        data: { juristic_id: '0105556000001', vat_registered: true, vat_id: '0105556000001' },
         meta,
         error: null,
       }
